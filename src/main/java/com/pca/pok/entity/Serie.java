@@ -2,6 +2,8 @@ package com.pca.pok.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,6 +15,9 @@ public abstract class Serie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "game_type", nullable = false)
+    private String gameType;
+
     @OneToMany(mappedBy = "serie")
-    private List<CardSet> cardSets;
+    private List<CardSet> cardSets = new ArrayList<>();
 }

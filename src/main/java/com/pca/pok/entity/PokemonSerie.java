@@ -8,4 +8,5 @@ import lombok.Data;
 public class PokemonSerie extends Serie {
 
     private String region;
+    private String name; // "Sword & Shield", "XY", etc.
 }

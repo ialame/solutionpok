@@ -1,7 +1,10 @@
 package com.pca.pok.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,5 +21,8 @@ public abstract class Card {
     private int level;
 
     @ManyToMany(mappedBy = "cards")
-    private List<CardSet> cardSets;
+    @JsonBackReference
+    private List<CardSet> cardSets = new ArrayList<>();
+
+
 }

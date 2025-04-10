@@ -4,6 +4,7 @@
     <ul>
       <li v-for="card in cards" :key="card.id">
         {{ card.name }} (Rareté: {{ card.rarity }})
+        <img :src="card.imageSmall" />
       </li>
     </ul>
   </div>
@@ -18,6 +19,7 @@ interface Card {
   id: number
   name: string
   rarity: string
+  imageSmall: string
   // ajoute d'autres champs si besoin : hp, tcgId, etc.
 }
 
@@ -42,4 +44,10 @@ onMounted(() => {
 
 <style scoped>
 /* Style local, optionnel */
+background-image {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 250px;
+}
 </style>

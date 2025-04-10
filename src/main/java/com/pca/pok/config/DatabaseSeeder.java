@@ -17,7 +17,7 @@ public class DatabaseSeeder implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         // ex: on importe la page 1, 10 cartes
-        importService.importCards(1, 10);
+        importService.importCards(1, 100);
 
         System.out.println("Import Pokémon TCG page=1, pageSize=10 terminé !");
     }

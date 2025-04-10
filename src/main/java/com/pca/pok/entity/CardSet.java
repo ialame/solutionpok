@@ -1,7 +1,10 @@
 package com.pca.pok.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,6 +16,8 @@ public abstract class CardSet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String name;         // "XY", "Vivid Voltage", etc.
+
     @ManyToOne
     private Serie serie;
 
@@ -22,5 +27,6 @@ public abstract class CardSet {
             joinColumns = @JoinColumn(name = "card_set_id"),
             inverseJoinColumns = @JoinColumn(name = "card_id")
     )
-    private List<Card> cards;
+    @JsonBackReference
+    private List<Card> cards = new ArrayList<>();
 }
