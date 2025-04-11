@@ -16,8 +16,6 @@ public abstract class CardSet {
     private Long id;
 
     private String name;         // "XY", "Vivid Voltage", etc.
-    @ManyToOne
-    private Serie serie;
     private String series;
 
     @ManyToMany

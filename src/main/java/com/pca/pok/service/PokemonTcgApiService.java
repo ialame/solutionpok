@@ -34,8 +34,4 @@ public class PokemonTcgApiService implements TcgApiService {
         return List.of();
     }
 
-    @Override
-    public List<SerieDto> fetchAllSeries() {
-        return List.of();
-    }
 }

@@ -1,8 +1,11 @@
 package com.pca.pok.controller;
 
+import com.pca.pok.dto.PokemonSerieAndSetDto;
+import com.pca.pok.dto.PokemonTcgSetDto;
 import com.pca.pok.entity.PokemonCard;
 import com.pca.pok.entity.PokemonSet;
 import com.pca.pok.repository.PokemonSetRepository;
+import com.pca.pok.service.PokemonCardImportService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,17 +19,26 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/pokemon")
 public class PokemonController {
 
-    private final PokemonSerieRepository serieRepo;
-    private final PokemonSetRepository setRepo;
 
-    public PokemonController(PokemonSerieRepository serieRepo, PokemonSetRepository setRepo) {
-        this.serieRepo = serieRepo;
+    private final PokemonSetRepository setRepo;
+    private final PokemonCardImportService importService;
+
+    public PokemonController(PokemonSetRepository setRepo, PokemonCardImportService importService) {
         this.setRepo = setRepo;
+        this.importService = importService;
     }
 
     // GET /api/pokemon/series
     @GetMapping("/series")
-    public List<String> getAllSeries() {
+    public PokemonSerieAndSetDto[] getAllSeries() {
+        // Récupérer tous les sets
+        // Extraire les .getSeries() distincts
+        return importService.importAllSetsAndSeries();
+    }
+
+    // GET /api/pokemon/series
+    @GetMapping("/series0")
+    public List<String> getAllSeries0() {
         // Récupérer tous les sets
         List<PokemonSet> sets = setRepo.findAll();
         // Extraire les .getSeries() distincts

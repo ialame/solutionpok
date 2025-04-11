@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  * Tu peux ajuster selon les champs que tu veux vraiment exploiter.
  */
 @Service
-public class PokTcgApiService implements TcgApiService<PokemonCardDto, PokemonTcgSetDto, PokemonSerieDto> {
+public class PokTcgApiService implements TcgApiService<PokemonCardDto, PokemonTcgSetDto> {
 
     private final RestTemplate restTemplate = new RestTemplate();
     private static final String BASE_URL = "https://api.pokemontcg.io/v2";
@@ -70,7 +70,7 @@ public class PokTcgApiService implements TcgApiService<PokemonCardDto, PokemonTc
         }).collect(Collectors.toList());
     }
 
-    @Override
+    /*@Override
     public List<PokemonSerieDto> fetchAllSeries() {
         // Comme l’API ne donne pas d’endpoint direct /series,
         // on réutilise fetchAllSets() puis on extrait la liste des séries distinctes.
@@ -90,5 +90,5 @@ public class PokTcgApiService implements TcgApiService<PokemonCardDto, PokemonTc
             dto.setName(seriesName); // ex: "XY"
             return dto;
         }).collect(Collectors.toList());
-    }
+    }*/
 }

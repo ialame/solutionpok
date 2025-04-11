@@ -1,5 +1,6 @@
 package com.pca.pok.service;
 
+import com.pca.pok.dto.PokemonSerieAndSetDto;
 import com.pca.pok.dto.PokemonTcgCardDto;
 import com.pca.pok.dto.PokemonTcgSetDto;
 import com.pca.pok.entity.PokemonCard;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.*;
 
 @Service
 public class PokemonCardImportService {
@@ -24,6 +27,37 @@ public class PokemonCardImportService {
     ) {
         this.pokemonSetRepository = pokemonSetRepository;
         this.pokemonCardRepository = pokemonCardRepository;
+    }
+
+
+    //@Transactional // s’assurer qu’on est en transaction
+    public PokemonSerieAndSetDto[] importAllSetsAndSeries() {
+        // 1) Télécharger la liste des sets
+        PokemonTcgSetApiResponse setResponse = restTemplate.getForObject(
+                "https://api.pokemontcg.io/v2/sets",
+                PokemonTcgSetApiResponse.class
+        );
+        Set<String> series = new HashSet<>();
+        PokemonSerieAndSetDto[] seriesAndSets = null;
+        if (setResponse != null && setResponse.getData() != null) {
+            for (PokemonTcgSetDto setDto : setResponse.getData()) {
+                series.add(setDto.getSeries());
+            }
+            seriesAndSets = new PokemonSerieAndSetDto[series.size()];
+            Iterator<String> iterator = series.iterator();
+            int i = 0;
+            while (iterator.hasNext()) {
+                seriesAndSets[i] = new PokemonSerieAndSetDto(iterator.next());
+                i++;
+            }
+            for (PokemonTcgSetDto setDto : setResponse.getData()) {
+                for(int j=0;j<series.size();j++) {
+                    if( seriesAndSets[j].getName().equals(setDto.getSeries()) )
+                        seriesAndSets[j].getSets().add(setDto);
+                }
+            }
+        }
+        return seriesAndSets;
     }
 
     //@Transactional // s’assurer qu’on est en transaction
@@ -64,6 +98,7 @@ public class PokemonCardImportService {
         }
     }
     @Transactional
+
     protected void importCardsForSet(PokemonSet setEntity) {
         // a) URL : https://api.pokemontcg.io/v2/cards?q=set.id:" + setEntity.getTcgSetId()
         //String url = "https://api.pokemontcg.io/v2/cards?q=set.id:\"" + setEntity.getTcgSetId() + "\"&pageSize=1000";
