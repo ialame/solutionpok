@@ -22,7 +22,7 @@ public abstract class Card {
 
     @ManyToMany(mappedBy = "cards")
     @JsonBackReference
-    private List<CardSet> cardSets = new ArrayList<>();
+    private List<CardSet> sets = new ArrayList<>();
 
 
 }

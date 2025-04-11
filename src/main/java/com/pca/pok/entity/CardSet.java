@@ -11,15 +11,14 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Data
 public abstract class CardSet {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;         // "XY", "Vivid Voltage", etc.
-
     @ManyToOne
     private Serie serie;
+    private String series;
 
     @ManyToMany
     @JoinTable(
